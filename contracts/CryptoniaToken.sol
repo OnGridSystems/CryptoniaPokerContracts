@@ -4,6 +4,12 @@ pragma solidity ^0.4.18;
 import "../zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 import "../zeppelin-solidity/contracts/ownership/rbac/RBAC.sol";
 
+
+/**
+ * @title Cryptonia Poker Chips Contract
+ * @author Kirill Varlamov (@ongrid), OnGrid systems
+ * @dev ERC-20 compatible token with zeppelin's RBAC
+ */
 contract CryptoniaToken is StandardToken, RBAC {
     string public name = "Cryptonia Poker Chips";
     string public symbol = "CPC";
