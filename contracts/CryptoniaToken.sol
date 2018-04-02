@@ -14,10 +14,6 @@ contract CryptoniaToken is StandardToken, RBAC {
 
     event Mint(address indexed to, uint256 amount);
     event MintFinished();
-    event OwnerAdded(address indexed newOwner);
-    event OwnerRemoved(address indexed removedOwner);
-    event MinterAdded(address indexed newMinter);
-    event MinterRemoved(address indexed removedMinter);
     event Burn(address indexed burner, uint256 value);
 
     /**
