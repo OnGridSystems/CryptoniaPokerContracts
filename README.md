@@ -25,19 +25,23 @@ CPC is [ERC-20](https://github.com/ethereum/EIPs/issues/20) standard token with 
 
 ## Crowdsale contract
 
+- Phased: **Yes**, with specific price per phase
+- Minimal Purchase: **0.1 ETH**
+- Token amount based on: ETH value of Tx and exchange rate CPC per ETH (defined per each phase)
+- Collected ETH forwarded to: **sink wallet** account of the founder
+- Sink wallet editable: **YES**, owner can change it over time to secure funds
 - Source code: **[CryptoniaCrowdsale.sol](contracts/CryptoniaCrowdsale.sol)**
 - Mainnet address: **[not deployed yet](https://etherscan.io/address/0x0)**
 
-Contract-crowdsale for Cryptonia project. It receives ethers and sends back corresponding amount of CPC tokens. 
+Contract-crowdsale for Cryptonia receives ethers and sends back corresponding amount of CPC tokens. 
 Token price depends on the current phase (see the schedule).
-The crowdsale contract contains a list of phases, each phase has a start time, end time and token price in ETHERS (wei-s).  
-**minPurchase = 0.1 ETH** - the minimal amount of purchase. 
+The crowdsale contract contains a list of phases, each phase has a start time, end time and CPC per ETH exchange rate. 
 If current time doesn't match any phase or transferred value less than minPurchase the operation is thrown (reverted).
 
 ### Crowdsale schedule
-can be changed after ICO start
+Shedule is preliminary, it can be changed at any time by addPhase/delPhase
 
-| Phase | Start date (UTC)    | Start Unix | End date (UTC)      | End Unix   | Price, CPC/ETH |  
+| Phase | Start date (UTC)    | Start Unix | End date (UTC)      | End Unix   | Rate, CPC/ETH  |  
 | ----- | ------------------- | ---------- | ------------------- | ---------- | -------------- |
 | 0     | 2018-04-10 00:00:00 | 1523318400 | 2018-04-30 23:59:59 | 1525132799 |    11000.00    |
 | 1     | 2018-05-01 00:00:00 | 1525132800 | 2018-05-31 23:59:59 | 1527811199 |     7000.00    |
@@ -57,7 +61,7 @@ date -u -j -f "%s" "1530392399" "+%Y-%m-%d  %H:%M:%S"
 
 The internal phases schedule can be changed at any time by the owner with the following methods:
 ```
-addPhase(_startDate, _endDate, _price)
+addPhase(_startDate, _endDate, _tokensPerETH)
 delPhase(index)
 ```
 
@@ -109,7 +113,7 @@ and oracle is external oracle service.
 
 - Add/Del Phases
 ```
-addPhase(_startDate, _endDate, _price)
+addPhase(_startDate, _endDate, _tokensPerETH)
 delPhase(index)
 ```
 - Add Crowdsale contract to the minters of the token
