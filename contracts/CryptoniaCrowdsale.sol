@@ -30,6 +30,9 @@ contract CryptoniaCrowdsale is RBAC {
   // Address where funds get collected
   address public wallet;
 
+  // Minimal allowed purchase is 0.1 ETH
+  uint256 public minPurchase = 100000000000000000;
+
   // Amount of ETH raised in wei. 1 wei is 10e-18 ETH
   uint256 public weiRaised;
 
@@ -77,7 +80,7 @@ contract CryptoniaCrowdsale is RBAC {
     uint256 currentPhaseIndex = getCurrentPhaseIndex();
     uint256 tokens = weiAmount.mul(phases[currentPhaseIndex].tokensPerETH).div(1 ether);
     require(beneficiary != address(0));
-    require(weiAmount != 0);
+    require(weiAmount >= minPurchase);
     weiRaised = weiRaised.add(weiAmount);
     phases[currentPhaseIndex].tokensIssued = phases[currentPhaseIndex].tokensIssued.add(tokens);
     tokensIssued = tokensIssued.add(tokens);

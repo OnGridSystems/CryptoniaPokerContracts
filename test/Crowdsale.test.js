@@ -37,6 +37,10 @@ contract('Crowdsale', function (accounts) {
       const wlt = await this.crowdsale.wallet();
       wlt.should.be.equal(wallet);
     });
+    it('should return minimal purchase', async function () {
+      const mp = await this.crowdsale.minPurchase();
+      mp.should.be.bignumber.equal(ether(0.1));
+    });
     describe('read phase getter', function () {
       it('should return phase values by existing phase', async function () {
         const phase = await this.crowdsale.phases(4).should.be.fulfilled;
@@ -132,6 +136,13 @@ contract('Crowdsale', function (accounts) {
         await this.crowdsale.sendTransaction({ value: ether(1), from: accounts[4] }).should.be.fulfilled;
         const post = await this.crowdsale.weiRaised().should.be.fulfilled;
         (post - pre).should.be.bignumber.equal(ether(1));
+      });
+      it('should not allow to deposit less 0.1 ETH', async function () {
+        const pre = await this.crowdsale.weiRaised().should.be.fulfilled;
+        await this.crowdsale.sendTransaction({ value: ether(0.0999), from: accounts[4] })
+          .should.be.rejectedWith(EVMRevert);
+        const post = await this.crowdsale.weiRaised().should.be.fulfilled;
+        (post - pre).should.be.bignumber.equal(0);
       });
     });
   });
