@@ -99,26 +99,26 @@ and flatten your crowdsale contract to a single code snippet, copy it
 ```truffle-flattener contracts/CryptoniaPokerCrowdsale.sol```
 You can use [Remix IDE](http://remix.ethereum.org) for deployment on the net. 
 
-- Deploy **Token** contract, you should get an address of deployed contract (*Token*)
+- First deploy **Token** contract, you should get an address of deployed contract (*Token*)
 ```
 deploy(Token)
 ```
-- As Tx get mined go to the etherscan and do **Token**'s source code verification
+As Tx get mined you should know Token address as a result.
 - Deploy **Crowdsale** contract
 ```
-deploy Crowdsale(wallet, Token, oracle)
+deploy Crowdsale(wallet, Token)
 ```
-where wallet is external address to receive depisited ethers, token is the token contract deployed on previous step
-and oracle is external oracle service.
+where wallet is external address to receive depisited ethers, Token is the token contract deployed on previous step.
 
 - Add/Del Phases
+construct your schedule with following methods
 ```
-addPhase(_startDate, _endDate, _tokensPerETH)
-delPhase(index)
+Crowdsale.addPhase(_startDate, _endDate, _tokensPerETH)
+Crowdsale.delPhase(index)
 ```
 - Add Crowdsale contract to the minters of the token
 ```
-Token.addMinter(Crowdsale.address)
+Token.adminAddRole(Crowdsale.address,"minter")
 ```
 ### Post-Deploy steps
 - Good practice is to verify Source Code on the etherscan. Do it for both Crowdsale and Token.
@@ -127,11 +127,12 @@ Token.addMinter(Crowdsale.address)
 ### After crowdsale end
 After the last phase ends you can disconnect Crowdsale from the token (remove minting privileges given before).
 ```
-Token.delMinter(Crowdsale.address)
+Token.adminDelRole(Crowdsale.address,"minter")
 ```
 
 ### Post-ICO state
-* the token is still mintable. To continue minting you should add new minter.
+* the token is still mintable. To continue minting you can grant minting permissions to
+the new entity - extarnal account or contract.
 
 ## Authors
 * OnGrid Systems: [Site](https://ongrid.pro), [GitHub](https://github.com/OnGridSystems/)
