@@ -7,8 +7,8 @@ burn or send this token to any other address. In the future the tokens can be ut
 scope of this spec).
 
 Cryptonia Poker Ethereum contracts suite consists of
-* Cryptonia Poker Chips token (CPC) - the main Chip of Cryptonia Poker game;
-* Crowdsale contract - issues CPCs to investors during ICO phases. 
+* Cryptonia Poker Chips token (CPC) at [0x0809bD190C94F4408e691C410E67BFf0DF5d225d](https://etherscan.io/address/0x0809bD190C94F4408e691C410E67BFf0DF5d225d) - the main Chip of Cryptonia Poker game;
+* Crowdsale contract at [0x510093014fa8EE0cF957b591B581573D7D6135aD](https://etherscan.io/address/0x510093014fa8EE0cF957b591B581573D7D6135aD) - issues CPCs to investors during ICO phases. 
 
 ## Token contract
 
@@ -19,31 +19,32 @@ CPC is [ERC-20](https://github.com/ethereum/EIPs/issues/20) standard token with 
 - Decimals: **2**
 - Mintable: **Yes**, Special role 'minter', Finalizeable
 - Burnable: **Yes**, owner can burn its tokens 
-- RBAC: **Yes**, minter (can issue tokens), admin (can finalize, can add minters)
+- RBAC: **Yes**, admin (can finalize, can add minters). Initially admin is contract deployer 0x8b2655f8940453d48de9a823402acbbda56c6289, admins can be added/deleted by admin. After deployment Crowdsale contract 0x2178456786133C163DfF480fEFfa7da3Dc251bFf was added as a minter. 
 - Source Code: **[CryptoniaToken.sol](contracts/CryptoniaToken.sol)**
-- Mainnet address: **[not deployed yet](https://etherscan.io/address/0x0)**
+- Mainnet address: **[0x0809bD190C94F4408e691C410E67BFf0DF5d225d](https://etherscan.io/address/0x0809bD190C94F4408e691C410E67BFf0DF5d225d)**
 
 ## Crowdsale contract
 
 - Phased: **Yes**, with specific price per phase
 - Minimal Purchase: **0.1 ETH**
 - Token amount based on: ETH value of Tx and exchange rate CPC per ETH (defined per each phase)
-- Collected ETH forwarded to: **sink wallet** account of the founder
-- Sink wallet editable: **YES**, owner can change it over time to secure funds
+- RBAC: **Yes**, admin (can change phases and sink wallet, initially admin is 0x8b2655f8940453d48de9a823402acbbda56c6289)
+- Collected ETH forwarded to: **sink wallet** account of the founder (initially 0x8b2655f8940453d48de9a823402acbbda56c6289, can be changed by admin)
+- Sink wallet editable: **YES**, admin can change it over time to secure funds (initially admin is 0x8b2655f8940453d48de9a823402acbbda56c6289, can be added/deleted by admin)
 - Source code: **[CryptoniaCrowdsale.sol](contracts/CryptoniaCrowdsale.sol)**
-- Mainnet address: **[not deployed yet](https://etherscan.io/address/0x0)**
+- Mainnet address: **[0x510093014fa8EE0cF957b591B581573D7D6135aD](https://etherscan.io/address/0x510093014fa8EE0cF957b591B581573D7D6135aD)**
 
-Contract-crowdsale for Cryptonia receives ethers and sends back corresponding amount of CPC tokens. 
+Crowdsale for Cryptonia receives ethers and sends back corresponding amount of CPC tokens. 
 Token price depends on the current phase (see the schedule).
 The crowdsale contract contains a list of phases, each phase has a start time, end time and CPC per ETH exchange rate. 
 If current time doesn't match any phase or transferred value less than minPurchase the operation is thrown (reverted).
 
 ### Crowdsale schedule
-Shedule is preliminary, it can be changed at any time by addPhase/delPhase
+Shedule is initially constructed on the Crowdsale deployment on 2018-04-03. It can be changed at any time by addPhase/delPhase
 
 | Phase | Start date (UTC)    | Start Unix | End date (UTC)      | End Unix   | Rate, CPC/ETH  |  
 | ----- | ------------------- | ---------- | ------------------- | ---------- | -------------- |
-| 0     | 2018-04-10 00:00:00 | 1523318400 | 2018-04-30 23:59:59 | 1525132799 |    11000.00    |
+| 0     | 2018-04-03 12:56:46 | 1522760206 | 2018-04-30 23:59:59 | 1525132799 |    11000.00    |
 | 1     | 2018-05-01 00:00:00 | 1525132800 | 2018-05-31 23:59:59 | 1527811199 |     7000.00    |
 | 2     | 2018-06-01 00:00:00 | 1527811200 | 2018-06-30 23:59:59 | 1530403199 |     5800.00    |
 
