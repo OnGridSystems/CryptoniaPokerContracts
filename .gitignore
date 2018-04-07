@@ -1,1 +1,6 @@
 node_modules
+.Python
+watchdog/bin
+watchdog/include
+watchdog/lib
+pip-selfcheck.json

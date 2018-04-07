@@ -135,5 +135,9 @@ Token.adminDelRole(Crowdsale.address,"minter")
 * the token is still mintable. To continue minting you can grant minting permissions to
 the new entity - extarnal account or contract.
 
+## Python watchdog script
+If you need contract variable values for any off-chain logic (backend) or representation (site) you can use
+the simple [python watchdog](watchdog) which pulls and prints out some states of your contracts.
+
 ## Authors
 * OnGrid Systems: [Site](https://ongrid.pro), [GitHub](https://github.com/OnGridSystems/)
