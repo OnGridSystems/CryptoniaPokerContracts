@@ -31,12 +31,8 @@ pip install -r requirements.txt
 ## Run
 ```
 ./watchdog.py
-Token Total Supply: 539100
-Crowdsale weiRaised: 490000000000000000
-Crowdsale CurrentPhaseIndex: 0
-Crowdsale CurrentPhase: [1522760206, 1525132799, 1100000, 539000]
 ```
-The contract variables are printed to console
+The contract variables will be dumped to the JSON file
 
 ## Authors
 * OnGrid Systems: [Site](https://ongrid.pro), [GitHub](https://github.com/OnGridSystems/)
